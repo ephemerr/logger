@@ -4,8 +4,11 @@
 
 class LogContext : public QMessageLogContext  {
   public:
-    LogContext(const char *fileName, int lineNumber, const QDateTime &dateTime);
+    LogContext(const char *fileName, int lineNumber, const QtMsgType& );
+    void log(const char *msg, ...) const Q_ATTRIBUTE_FORMAT_PRINTF(2, 3);
+  private:
     QDateTime datetime_;
+    QtMsgType level_{QtInfoMsg};
 };
 
 class Logger : public QObject {
@@ -15,19 +18,19 @@ public:
           static Logger theSingleInstance;
           return theSingleInstance;
   }
-  void log(const char *msg,  const char *fileName, int lineNumber, const QtMsgType &);
-  void setLevel(const QtMsgType &);
+  void setLevel(const QtMsgType &level) {level_ = level;};
+  const QtMsgType& getLevel() {return level_;};
   void setFormat(const QString &);
 signals:
-  void message(const QString &msg, const LogContext &, QtMsgType);
+  void message(const QString &msg, const LogContext *);
 private:
   QtMsgType level_{QtInfoMsg};
 };
 
-#define logDebug(msg) Logger::instance().log(msg,__FILE__,__LINE__,QtDebugMsg)
-#define logInfo(msg)  Logger::instance().log(msg,__FILE__,__LINE__,QtInfoMsg)
-#define logWarn(msg)  Logger::instance().log(msg,__FILE__,__LINE__,QtWarningMsg)
-#define logFatal(msg) Logger::instance().log(msg,__FILE__,__LINE__,QtFatalMsg)
+#define logDebug LogContext(__FILE__,__LINE__,QtDebugMsg).log
+#define logInfo  LogContext(__FILE__,__LINE__,QtInfoMsg).log
+#define logWarn  LogContext(__FILE__,__LINE__,QtWarningMsg).log
+#define logFatal LogContext(__FILE__,__LINE__,QtFatalMsg).log
 
 #define LOGGER_NO_DEBUG_MACRO
 
