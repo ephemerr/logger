@@ -16,8 +16,8 @@ public:
           return theSingleInstance;
   }
   void log(const char *msg,  const char *fileName, int lineNumber, const QtMsgType &);
-  void setLevel(const QtMsgType &min);
-  void setFormat(const QString &format);
+  void setLevel(const QtMsgType &);
+  void setFormat(const QString &);
 signals:
   void message(const QString &msg, const LogContext &, QtMsgType);
 private:
