@@ -3,3 +3,5 @@ all:
 clean:
 		cd build && make clean
 notify: all
+run:
+		build/logger
