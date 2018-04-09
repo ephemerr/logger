@@ -8,12 +8,11 @@ int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
     Logger::init();
-    Logger::init();
     for (;;) {
-      qDebug("Hey debug");
-      qInfo("Hey info");
-      qWarning("Hey warning");
-      qCritical("Hey critical");
+      logDebug("Hey debug");
+      logInfo("Hey info");
+      logWarning("Hey warning");
+      logCritical("Hey critical");
       QThread::sleep(2);
     }
     return app.exec();

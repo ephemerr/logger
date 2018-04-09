@@ -1,6 +1,7 @@
 #include <QObject>
 #include <QFile>
 #include <QFileSystemWatcher>
+#include <qlogging.h>
 
 class Logger : public QObject {
   Q_OBJECT
@@ -16,4 +17,8 @@ private:
   static QFile log_;
 };
 
-
+#define logDebug    QMessageLogger(__FILE__,__LINE__, QT_MESSAGELOG_FUNC).debug
+#define logInfo     QMessageLogger(__FILE__,__LINE__, QT_MESSAGELOG_FUNC).info
+#define logWarning  QMessageLogger(__FILE__,__LINE__, QT_MESSAGELOG_FUNC).warning
+#define logCritical QMessageLogger(__FILE__,__LINE__, QT_MESSAGELOG_FUNC).critical
+#define logFatal    QMessageLogger(__FILE__,__LINE__, QT_MESSAGELOG_FUNC).fatal

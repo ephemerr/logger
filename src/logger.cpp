@@ -51,6 +51,12 @@ void Logger::init() {
           &Logger::logRulesChanged);
 }
 
+void decolorize(const QtMsgType type, QString &log_msg) {
+  log_msg.replace("%CB", "");
+  log_msg.replace("%CE", "");
+  log_msg.replace("%T", "");
+}
+
 void colorize(
     const QtMsgType type, QString &log_msg) {
   switch (type) {
